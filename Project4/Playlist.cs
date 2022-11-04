@@ -37,7 +37,7 @@ namespace Project3MP3
 
         public string PlaylistDate { get; set; } // date playlist was created
 
-        public bool SaveNeeded { get; set; }
+        public bool SaveNeeded { get; set; } // indicated if changes have been made to playlist since last save 
 
 
 
