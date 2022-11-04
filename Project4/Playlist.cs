@@ -456,6 +456,10 @@ namespace Project3MP3
         }
 
 
+        /// <summary>
+        /// Saves the plalist info in a file with a delimeter seperaator "|"
+        /// </summary>
+        /// <param name="fileName"></param>
         public void SaveToFile(string fileName)
         {
             StreamWriter writer = null;
