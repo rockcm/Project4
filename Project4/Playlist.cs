@@ -421,6 +421,10 @@ namespace Project3MP3
         }
 
 
+        /// <summary>
+        /// Fills playlist information from a file on the computer. 
+        /// </summary>
+        /// <param name="FileName">the name of the file location to populate the playlist from</param>
         public void FillFromFile(string FileName)
         {
             StreamReader sr = null;
