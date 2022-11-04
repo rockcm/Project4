@@ -462,21 +462,21 @@ namespace Project3MP3
         /// <param name="fileName"></param>
         public void SaveToFile(string fileName)
         {
-            StreamWriter writer = null;
+            StreamWriter writer = null; // initialized writer to null 
 
-            try
+            try // try cathch to make sure program does not crash during save to file. 
             {
-                writer = new StreamWriter(fileName);
-                for (int i = 0; i < MP3Playlist.Count; i++)
+                writer = new StreamWriter(fileName); // passing the filed name to the writer
+                for (int i = 0; i < MP3Playlist.Count; i++) // for loop to print out a line for each mp3 to the file with a delimeter. 
                 {
                     writer.WriteLine(MP3Playlist[i].SongTitle + "|" + MP3Playlist[i].Artist + "|" + MP3Playlist[i].SongReleaseDate + "|" + MP3Playlist[i].PlaybackTimeMins + "|" + MP3Playlist[i].Genre + "|" + MP3Playlist[i].DownloadCost + "|" + MP3Playlist[i].FileSizeMBs + "|" + MP3Playlist[i].Path);
                 }
             }
-            catch (Exception e)
+            catch (Exception e) // catch for all exceptions
             {
                 Console.WriteLine(e.Message);
             }
-            finally
+            finally // finally to close the writer 
             {
                 if (writer != null)
                     writer.Close();
