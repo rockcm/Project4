@@ -484,5 +484,20 @@ namespace Project3MP3
 
 
         }
+
+        /// <summary>
+        /// To string method that allows for the playlist info to be diplayed nicely.
+        /// </summary>
+        /// <returns>the playlists values in a nice format</returns>
+        public override string ToString()
+        {
+            string msg;
+            msg = $"The Playlist Name is : {PlaylistName}" +
+                  $"\nThe Author of the Playlist is : {PlaylistAuthor}" +
+                  $"\nThe Date the playlist was created is : {PlaylistDate}" +
+                  $"\nThe number of songs in the playlist is : {MP3Playlist.Count}.";
+            return msg;
+
+        }
     }
 }

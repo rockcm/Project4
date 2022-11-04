@@ -109,6 +109,7 @@ while (choice != Choices.End)
         // menu option for creating a playlist, store values in variables defined above and creates playlist from them.
 
         case Choices.CreatePlaylist:
+            playlist1 = new Playlist();
             try
             {
                 Console.WriteLine("What is your name? ");
