@@ -44,15 +44,17 @@ decimal DownloadCost = 0;
 double FileSizeMBs = 0;
 string Path = "";
 string file = "";
+MPThree mp3ToEdit = new MPThree(); // mp3 that will be used to edit 
 
 
 string UserInput = ""; // user input for authors name 
 string UserInput2 = ""; // user input for name of playlist 
 string UserInput3 = ""; // user input for date playlist was made.
 string Song = ""; // user input to indicate what song to look for or display 
+string partToEdit = "";
 
 
-Playlist playlist1 = new Playlist();
+Playlist playlist1 = null;
 
 Console.ForegroundColor = ConsoleColor.Cyan; // makes text color blue where you enter name
 
@@ -128,7 +130,7 @@ while (choice != Choices.End)
             }
             catch (SystemException e)
             {
-                Console.WriteLine($"System Exception: {e.Message}");
+                Console.WriteLine($"System Exception: {e.Message}.  Please try again" );
             }
             catch (Exception e)
             {
@@ -150,26 +152,40 @@ while (choice != Choices.End)
                 Artist = Console.ReadLine();
                 Console.WriteLine("\nEnter Song Release Date");
                 SongReleaseDate = Console.ReadLine();
-                Console.WriteLine("\nEnter Song playback time");
-                PlaybackTimeMins = Convert.ToDouble(Console.ReadLine());
-                Console.WriteLine("\nEnter Song Download Cost");
-                DownloadCost = Convert.ToDecimal(Console.ReadLine());
-                Console.WriteLine("\nEnter File Size");
-                FileSizeMBs = Convert.ToDouble(Console.ReadLine());
+                try
+                {
+                    Console.WriteLine("\nEnter Song playback time");
+                    PlaybackTimeMins = Convert.ToDouble(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message + " Can edit file's playback time later if you would like.");
+                }
+                try
+                {
+                    Console.WriteLine("\nEnter Song Download Cost");
+                    DownloadCost = Convert.ToDecimal(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message + " Can edit file's download cost later if you would like.");
+                }
+                try
+                {
+                    Console.WriteLine("\nEnter File Size");
+                    FileSizeMBs = Convert.ToDouble(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message + " Can edit file's file size later if you would like.");
+                }
+
                 Console.WriteLine("\nEnter Song Path");
                 Path = Console.ReadLine();
             }
-            catch (FormatException e)
-            {
-                Console.WriteLine("Format Exceptiion, program will continue. Can edit file later if you would like.");
-            }
-            catch (SystemException e)
-            {
-                Console.WriteLine($"System Exception: {e.Message}");
-            }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " Can edit file's later if you would like.");
             }
 
 
@@ -220,59 +236,240 @@ while (choice != Choices.End)
             }
             catch (FormatException e)
             {
-                Console.WriteLine("Format Exceptiion, program will continue. Can edit file later if you would like.");
+                Console.WriteLine("Format Exceptiion, program will continue.  Could not locate MP3 file. Please try again");
             }
             catch (SystemException e)
             {
-                Console.WriteLine($"System Exception: {e.Message}. Can edit file later if you would like.");
+                Console.WriteLine($"System Exception: {e.Message}. Could not locate MP3 file. Please try again");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + ". Could not locate MP3 file. Please try again");
             }
 
             break;
 
         // menu option for Diplaying a song from the Playlist, using the find by title method. 
         case Choices.DisplayBySongTitle:
-            Console.WriteLine("What song are you looking for?");
+            try
+            {
+                if (playlist1.PlaylistSize() == 0)
+                {
+                    Console.WriteLine("There are no songs to display, please make a playlist and add an MP3 first");
+                }
+                else
+                {
+                    Console.WriteLine("What song are you looking for?");
 
-            Song = Console.ReadLine();
+                    Song = Console.ReadLine();
 
-            Console.WriteLine(playlist1.FindByTitle(playlist1, Song));
-            Console.ReadKey();
-
-
+                    Console.WriteLine(playlist1.FindByTitle(playlist1, Song));
+                }
+                Console.ReadKey();
+              
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message + "");
+            }
             break;
 
 
         // menu option for showing all the mp3 objects in the playlist
         case Choices.DisplayAll:
-            Console.WriteLine("Here is your current playlist: \n");
-            Console.WriteLine($"\n{playlist1.ToString()} ");
-            foreach (MPThree mp3 in playlist1.GetPlaylist())
+            try
             {
-                Console.WriteLine($"\n{mp3}");
+                if (playlist1.PlaylistSize() == 0)
+                {
+                    Console.WriteLine("There are no songs to display, please make a playlist and add an MP3 first");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.WriteLine("Here is your current playlist: \n");
+                    Console.WriteLine($"\n{playlist1.ToString()} ");
+                    foreach (MPThree mp3 in playlist1.GetPlaylist())
+                    {
+                        Console.WriteLine($"\n{mp3}");
+                    }
+                    Console.ReadKey();
+                }
+                
             }
-            Console.ReadLine();
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message + " Please create a playlist and add an mp3 file to it");
+                Console.ReadKey();
+            }
 
 
             break;
 
         // menu option for editing a part of an MP3 object.
         case Choices.EditAnMP3:
-            MPThree mp3ToEdit = new MPThree();
-            Console.Write("MP3's in playlist will be displayed below. \n");
-            foreach (MPThree mp3 in playlist1.GetPlaylist())
+            if (playlist1 == null)
             {
-                Console.WriteLine($"\n{mp3}");
+                Console.WriteLine("Please create a Playlist and add an MP3.");
+                Console.ReadKey();
             }
-            Console.Write($"\nWhat is the name of the song you would like to edit?");
-            Song = Console.ReadLine();
-            mp3ToEdit = playlist1.FindByTitle(playlist1, Song); // find the mp3 to edit by using find by title
-            Console.Write("\nWhat part of the MP3 would you like to edit? Enter one of the following ( Song Title, Artist, Playback Time, Genre, Path, Download Cost, File Size, or Release Date) ");
-            string userinput2 = Console.ReadLine();
-            playlist1.EditMP3(mp3ToEdit, userinput2); // allows for the editing of the mp3 with this method
+            else
+            {
+                try
+                {
+
+                    Console.Write("MP3's in playlist will be displayed below. \n");
+                    foreach (MPThree mp3 in playlist1.GetPlaylist())
+                    {
+                        Console.WriteLine($"\n{mp3}");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message + "Please create a Playlist and add an MP3.");
+                }
+
+                try
+                {
+                    Console.Write($"\nWhat is the song title of the MP3 you would like to edit?");
+                    Song = Console.ReadLine();
+                    mp3ToEdit = playlist1.FindByTitle(playlist1, Song); // finding the mp3 with findbytitle method.
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message + ". Unable to find MP3 file. Please try again. (Search by song title.");
+                    Console.ReadKey();
+                }
+                try
+                {
+                    Console.Write("\nWhat part of the MP3 would you like to edit? Enter one of the following ( Song Title, Artist, Playback Time, Genre, Path, Download Cost, File Size, or Release Date) ");
+                    partToEdit = Console.ReadLine();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message + ". Please try again");
+                    Console.ReadKey();
+                }
+            }
+            switch (partToEdit) // switch statment depending on which part user wants to edit. 
+            {
+
+                case "Artist":  // option if the user want to edit the Artist
+                   
+                        Console.WriteLine($"\nWhat would you like the new artist name to be? ");
+                        mp3ToEdit.Artist = Console.ReadLine();
+                        Console.WriteLine($"\nHere is mp3 after edit: ");
+                        Console.WriteLine();
+                        Console.WriteLine(mp3ToEdit);
+                        Console.ReadKey();
+                    
+                    break;
+
+                    
+                case "Release Date": // option if the user want to edit the Release Date
+
+                    try
+                    {
+                        Console.WriteLine($"\nWhat would you like the new Release Date to be? ");
+                        mp3ToEdit.SongReleaseDate = Console.ReadLine();
+                        Console.WriteLine();
+                        Console.WriteLine(mp3ToEdit);
+                        Console.ReadKey();
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
+                    break;
+
+                case "Genre": // option if the user want to edit the Genre
+                    string Genreinput = "";
+                    try // try catch to make sure genre does not crash program
+                    {
+                        Console.WriteLine($"\nWhat would you like the new Genre to be? Enter one of the following (Rock, Pop, Jazz, Country, Classical, or Other). ");
+                        Genreinput = Console.ReadLine();
+                        mp3ToEdit.Genre = (Genre)Enum.Parse(typeof(Genre), Genreinput);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine($"\nError: {e.Message}. Genre was not valid, value will be set to 'Rock'. ");
+                    }
+                    finally
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine(mp3ToEdit);
+                        Console.ReadKey();
+
+                    }
+                    break;
+
+                case "Download Cost": // option if the user want to edit the Download Cost
+                    try
+                    {
+                        Console.WriteLine($"\nWhat would you like the new Download Cost to be? ");
+                        mp3ToEdit.DownloadCost = Convert.ToDecimal(Console.ReadLine());
+                        Console.WriteLine();
+                        Console.WriteLine(mp3ToEdit);
+                        Console.ReadKey();
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine(e.Message + " Please try again, enter a number");
+                    }
+
+                    break;
+
+                case "Song Title": // option if the user want to edit the Song Title
+                    Console.WriteLine($"\nWhat would you like the new Song Title to be? ");
+                    mp3ToEdit.SongTitle = Console.ReadLine();
+                    Console.WriteLine();
+                    Console.WriteLine(mp3ToEdit);
+                    Console.ReadKey();
+
+                    break;
+
+                case "File Size": // option if the user want to edit the File Size
+                    try
+                    {
+                        Console.WriteLine($"\nWhat would you like the new File Size in MBs to be? ");
+                        mp3ToEdit.FileSizeMBs = Double.Parse(Console.ReadLine());
+                        Console.WriteLine();
+                        Console.WriteLine(mp3ToEdit);
+                        Console.ReadKey();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message + " Please try again, enter a number");
+                    }
+
+                    break;
+
+
+                case "Playback Time": // option if the user want to edit the Playback Time
+                    try
+                    {
+                        Console.WriteLine($"\nWhat would you like the new Playback time to be? ");
+                        mp3ToEdit.PlaybackTimeMins = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine();
+                        Console.WriteLine(mp3ToEdit);
+                        Console.ReadKey();
+                    }
+                     catch(Exception e)
+                    {
+                        Console.WriteLine(e.Message + " Please try again, enter a number");
+                    }
+
+                    break;
+
+                case "Path": // option if the user want to edit the Path
+                    Console.WriteLine($"\nWhat would you like the new Path to be? ");
+                    mp3ToEdit.Path = Console.ReadLine();
+                    Console.WriteLine();
+                    Console.WriteLine(mp3ToEdit);
+                    Console.ReadKey();
+
+                    break;
+            } // allows for the editing of the mp3 with this method
 
 
             break;
@@ -280,13 +477,30 @@ while (choice != Choices.End)
 
         // menu option for sorting the playlist by release date. 
         case Choices.SortByReleaseDate:
-            Console.WriteLine($"\nPlaylist will be sorted by release date.\n");
-            playlist1.SortByReleaseDates(playlist1.GetPlaylist(), playlist1.PlaylistSize()); // calls sort by release date method
-            foreach (MPThree mp3 in playlist1.GetPlaylist())
+
+            try
             {
-                Console.WriteLine($"\n{mp3}");
+
+                if (playlist1 == null)
+                {
+                    Console.WriteLine("Please create a playlist and add an MP3 first");
+                }
+                else
+                {
+                    Console.WriteLine($"\nPlaylist will be sorted by release date.\n");
+                    playlist1.SortByReleaseDates(playlist1.GetPlaylist(), playlist1.PlaylistSize()); // calls sort by release date method
+                    foreach (MPThree mp3 in playlist1.GetPlaylist())
+                    {
+                        Console.WriteLine($"\n{mp3}");
+                    }
+                    Console.ReadKey();
+                }
+                
             }
-            Console.ReadKey();
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " Please try again, enter a number");
+            }
             break;
 
 
@@ -313,12 +527,21 @@ while (choice != Choices.End)
 
         // menu option for diplaying mp3 songs alpabetically
         case Choices.SortByTitle:
-            playlist1.DisplayBySong(playlist1.PlaylistSize()); // call display by song method and displays array 
-            foreach (MPThree mp3 in playlist1.GetPlaylist())
+            try
             {
-                Console.WriteLine($"\n{mp3}\n");
+
+
+                playlist1.DisplayBySong(playlist1.PlaylistSize()); // call display by song method and displays array 
+                foreach (MPThree mp3 in playlist1.GetPlaylist())
+                {
+                    Console.WriteLine($"\n{mp3}\n");
+                }
+                Console.ReadKey();
             }
-            Console.ReadKey();
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
             break;
 
@@ -334,9 +557,16 @@ while (choice != Choices.End)
 
 
         case Choices.FillFromFile:
-            Console.WriteLine("What is the file you would like to load from");
-            file = Console.ReadLine();
-            playlist1.FillFromFile(file);
+            try
+            {
+                Console.WriteLine("What is the file you would like to load from");
+                file = Console.ReadLine();
+                playlist1.FillFromFile(file);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message + " Please try again, unable to read from file location");
+            }
             break;
 
 
@@ -344,9 +574,16 @@ while (choice != Choices.End)
 
 
         case Choices.SaveToFile:
-            Console.WriteLine("Please type in the file you would like to save to");
-            file = Console.ReadLine();
-            playlist1.SaveToFile(file);
+            try
+            {
+                Console.WriteLine("Please type in the file you would like to save to");
+                file = Console.ReadLine();
+                playlist1.SaveToFile(file);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message + ". Please try again, unable to save to file location");
+            }
             break;
 
 
