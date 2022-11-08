@@ -45,7 +45,8 @@ double FileSizeMBs = 0;
 string Path = "";
 string file = "";
 MPThree mp3ToEdit = new MPThree(); // mp3 that will be used to edit 
-
+string End = "";
+string SaveNeededFile;
 
 string UserInput = ""; // user input for authors name 
 string UserInput2 = ""; // user input for name of playlist 
@@ -88,13 +89,7 @@ menu = menu + "Create a new Playlist" + "Create a new MP3 object and add it to t
 
 Choices choice = (Choices)menu.GetChoice(); // recognizes what option is selected by user and displays correct siwtch staemtent base upon it.
 
-if (choice == Choices.End) // statement for if the user selects "end" before making an mp3. this will say goodbye to them.
-{
 
-    Console.WriteLine("You selected End the Program.");
-    Console.WriteLine($"\nThank you, {name} for using my program. Press any key to end.");
-    Console.ReadKey();
-}
 
 
 /// <summary>
@@ -135,6 +130,10 @@ while (choice != Choices.End)
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                playlist1.SaveNeeded = true;
             }
             break;
 
@@ -208,6 +207,7 @@ while (choice != Choices.End)
                 Console.ReadKey();
                 Console.WriteLine($"\nThank you, {name} for using my program. Press any key to go back to main menu.");
                 Console.ReadKey();
+                playlist1.SaveNeeded = true;
             }
             break;
 
@@ -245,6 +245,10 @@ while (choice != Choices.End)
             catch (Exception e)
             {
                 Console.WriteLine(e.Message + ". Could not locate MP3 file. Please try again");
+            }
+            finally
+            {
+                playlist1.SaveNeeded = true;
             }
 
             break;
@@ -349,6 +353,10 @@ while (choice != Choices.End)
                     Console.WriteLine(e.Message + ". Please try again");
                     Console.ReadKey();
                 }
+                finally
+                {
+                    playlist1.SaveNeeded = true;
+                }  
             }
             switch (partToEdit) // switch statment depending on which part user wants to edit. 
             {
@@ -557,6 +565,7 @@ while (choice != Choices.End)
 
 
         case Choices.FillFromFile:
+            playlist1 = new Playlist();
             try
             {
                 Console.WriteLine("What is the file you would like to load from");
@@ -565,7 +574,8 @@ while (choice != Choices.End)
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message + " Please try again, unable to read from file location");
+                Console.WriteLine(e.Message + " Please try again, unable to read from file location. No playlist created");
+                Console.ReadKey();
             }
             break;
 
@@ -597,10 +607,54 @@ while (choice != Choices.End)
 
 if (choice == Choices.End) // statement for if the user selects "end" to say goodbye to them.
 {
+    try
+    {
+        if (playlist1.SaveNeeded == true)
+        {
+            try
+            {
+                do
+                {
+                    Console.WriteLine("It looks like you have made changes to the Playlist since the last save. Would you like to save before you exit? (Enter Yes or No)");
+                    End = Console.ReadLine().ToUpper();
+                    if (End == "Y" || End == "YES")
+                    {
+                        Console.Write("What is the file location you would like to save to? ");
+                        SaveNeededFile = Console.ReadLine();
 
-    Console.WriteLine("You selected End the Program.");
-    Console.WriteLine($"\nThank you, {name} for using my program. Press any key to end.");
-    Console.ReadKey();
+                        playlist1.SaveToFile(SaveNeededFile);
+                    }
+                    else if (End == "N" || End == "NO")
+                    {
+                        Console.WriteLine("You selected End the Program.");
+                        Console.WriteLine($"\nThank you, {name} for using my program. Press any key to end.");
+                        Console.ReadKey();
+                    }
+                } while (End != "YES" && End != "Y" && End != "N" && End != "NO");
+
+                Console.ReadKey();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " Please try again");
+            }
+
+
+            Console.WriteLine("Changes have been saved,");
+            Console.WriteLine($"\nThank you, {name} for using my program. Press any key to end.");
+            Console.ReadKey();
+        }
+        else
+        {
+            Console.WriteLine("You selected End the Program.");
+            Console.WriteLine($"\nThank you, {name} for using my program. Press any key to end.");
+            Console.ReadKey();
+        }
+    }
+    catch(Exception ex)
+    {
+        Console.WriteLine("No playlist created. Program will continue to end");
+    }
 }
 
 

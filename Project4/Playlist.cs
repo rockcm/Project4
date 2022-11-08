@@ -95,6 +95,7 @@ namespace Project3MP3
         public void AddToList(MPThree MP3)
         {
             MP3Playlist.Add(MP3);
+           
         }
 
 
@@ -116,6 +117,7 @@ namespace Project3MP3
         public void RemoveSong(MPThree mp3)
         {
             MP3Playlist.Remove(mp3);
+          
         }
 
 
