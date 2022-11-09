@@ -32,14 +32,14 @@ public class MPThree
     /// </summary>
     public MPThree()
     {
-        string SongTitle = "";
-        string Artist = "";
-        string SongReleaseDate = "";
-        double PlaybackTimeMins = 0;
-        Genre Genre = Genre.Rock;
-        decimal DownloadCost = 0;
-        double FileSizeMBs = 0;
-        string Path = "";
+        SongTitle = "";
+        Artist = "";
+        SongReleaseDate = "";
+        PlaybackTimeMins = 0;
+        Genre = Genre.Rock;
+        DownloadCost = 0;
+        FileSizeMBs = 0;
+        Path = "";
     }
 
     /// <summary>

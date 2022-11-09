@@ -619,7 +619,7 @@ if (choice == Choices.End) // statement for if the user selects "end" to say goo
                     End = Console.ReadLine().ToUpper();
                     if (End == "Y" || End == "YES")
                     {
-                        Console.Write("What is the file location you would like to save to? ");
+                        Console.Write($"\nWhat is the file location you would like to save to? ");
                         SaveNeededFile = Console.ReadLine();
 
                         playlist1.SaveToFile(SaveNeededFile);

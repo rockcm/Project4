@@ -41,7 +41,9 @@ namespace Project3MP3
 
 
 
-        // default constructor, sets defualt values.
+        /// <summary>
+        /// default constructor, sets defualt values.
+        /// </summary>
         public Playlist()
         {
             MP3Playlist = new List<MPThree>();
@@ -335,6 +337,13 @@ namespace Project3MP3
             try
             {
                 sr = new StreamReader(FileName);
+
+                string authorinfo = sr.ReadLine();
+                string[] authorFields = authorinfo.Split("|");
+                PlaylistName = authorFields[0];
+                PlaylistAuthor = authorFields[1];
+                PlaylistDate = authorFields[2];
+                
                 while (sr.Peek() != -1)
                 {
                     string str = "";
@@ -369,7 +378,12 @@ namespace Project3MP3
 
             try // try cathch to make sure program does not crash during save to file. 
             {
+
+
+              
+                
                 writer = new StreamWriter(fileName); // passing the filed name to the writer
+                writer.WriteLine(PlaylistName + "|" + PlaylistAuthor + "|" + PlaylistDate);
                 for (int i = 0; i < MP3Playlist.Count; i++) // for loop to print out a line for each mp3 to the file with a delimeter. 
                 {
                     writer.WriteLine(MP3Playlist[i].SongTitle + "|" + MP3Playlist[i].Artist + "|" + MP3Playlist[i].SongReleaseDate + "|" + MP3Playlist[i].PlaybackTimeMins + "|" + MP3Playlist[i].Genre + "|" + MP3Playlist[i].DownloadCost + "|" + MP3Playlist[i].FileSizeMBs + "|" + MP3Playlist[i].Path);
