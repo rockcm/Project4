@@ -585,13 +585,14 @@ while (choice != Choices.End)
             break;
 
 
+            // option for loading playlist information from a file. 
         case Choices.FillFromFile:
             playlist1 = new Playlist();
             try
             {
                 Console.WriteLine("What is the file you would like to load from");
                 file = Console.ReadLine();
-                playlist1.FillFromFile(file);
+                playlist1.FillFromFile(file); // calling fill method that loads a playlist to the program. 
             }
             catch(Exception e)
             {
@@ -603,13 +604,13 @@ while (choice != Choices.End)
 
 
 
-
+            // option to save the playlist information
         case Choices.SaveToFile:
-            try
+            try // try catch to make sure the program does not crash. 
             {
                 Console.WriteLine("Please type in the file you would like to save to");
                 file = Console.ReadLine();
-                playlist1.SaveToFile(file);
+                playlist1.SaveToFile(file); // calling save method 
             }
             catch(Exception e)
             {
@@ -628,13 +629,13 @@ while (choice != Choices.End)
 
 if (choice == Choices.End) // statement for if the user selects "end" to say goodbye to them.
 {
-    try
+    try // try catch to make sure code does not crash. 
     {
-        if (playlist1.SaveNeeded == true)
+        if (playlist1.SaveNeeded == true) // if changes have been made to the playlist 
         {
             try
             {
-                do
+                do // do while to make sure the user indicates whether they want to save or not.
                 {
                     Console.WriteLine("It looks like you have made changes to the Playlist since the last save. Would you like to save before you exit? (Enter Yes or No)");
                     End = Console.ReadLine().ToUpper();
@@ -665,7 +666,7 @@ if (choice == Choices.End) // statement for if the user selects "end" to say goo
             Console.WriteLine($"\nThank you, {name} for using my program. Press any key to end.");
             Console.ReadKey();
         }
-        else
+        else // if changes were not made. 
         {
             Console.WriteLine("You selected End the Program.");
             Console.WriteLine($"\nThank you, {name} for using my program. Press any key to end.");

@@ -342,13 +342,14 @@ namespace Project3MP3
         /// <param name="FileName">the name of the file location to populate the playlist from</param>
         public void FillFromFile(string FileName)
         {
-            StreamReader sr = null;
+            StreamReader sr = null; // new stream reader
 
-            try
+            try // try catch to prevent crashes 
             {
-                sr = new StreamReader(FileName);
+                sr = new StreamReader(FileName); // streamreader with parameter passed for file
                 try
                 {
+                    // taking the first line of the document and converting it to the playlist information. 
                     string authorinfo = sr.ReadLine();
                     string[] authorFields = authorinfo.Split("|");
                     PlaylistName = authorFields[0];
@@ -360,10 +361,10 @@ namespace Project3MP3
 
                 }
                 
-                while (sr.Peek() != -1)
+                while (sr.Peek() != -1) // while there is text left to be read
                 {
                     try
-                    {
+                    { // creates an mp3 from text in the file, delimiter is |.
                         string str = "";
                         string textLine = sr.ReadLine();
                         string[] fields = textLine.Split("|");
@@ -384,7 +385,7 @@ namespace Project3MP3
             }
             finally
             {
-                sr.Close();
+                sr.Close(); // make sure the reader closes. 
             }
 
 
