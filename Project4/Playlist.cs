@@ -154,6 +154,7 @@ namespace Project3MP3
                     foundPos = index;// and update foundpos to the index position it was found at. 
 
                 }
+
                 index++;
             }
 
@@ -227,6 +228,10 @@ namespace Project3MP3
                 if (MP3Playlist[i].Artist == artist)  // checks to see if the MP3 has the same genre as the artist passed.
                 {
                     msg += $"\n\n{MP3Playlist[i].ToString()}"; // adds mp3 to list
+                }
+                else
+                {
+                    msg = "No MP3's found with that Artist";
                 }
             }
 

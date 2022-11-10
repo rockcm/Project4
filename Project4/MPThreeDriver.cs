@@ -447,7 +447,7 @@ while (choice != Choices.End)
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e.Message + " Please try again, enter a number");
+                        Console.WriteLine(e.Message + " Please try again, enter an number");
                     }
 
                     break;
@@ -507,7 +507,11 @@ while (choice != Choices.End)
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message + " Please try again, enter a number");
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                playlist1.SaveNeeded = true;
             }
             break;
 
@@ -526,17 +530,23 @@ while (choice != Choices.End)
                 Console.ReadKey();
             }catch(Exception e)
             {
-
+                Console.WriteLine("Invalin genre option entered.");
             }
             break;
 
         // menu option for diplaying all songs by a given artist. 
         case Choices.DisplayAllByArtist:
-            string ArtistToDisplay;
-            Console.WriteLine("What artist would you like to display? ");
-            ArtistToDisplay = Console.ReadLine();
-            Console.WriteLine(playlist1.DisplayByArtist(ArtistToDisplay)); // passes user input to display all mp3's with that input
-            Console.ReadKey();
+            try
+            {
+                string ArtistToDisplay;
+                Console.WriteLine("What artist would you like to display? ");
+                ArtistToDisplay = Console.ReadLine();
+                Console.WriteLine(playlist1.DisplayByArtist(ArtistToDisplay)); // passes user input to display all mp3's with that input
+                Console.ReadKey();
+            }catch(Exception e)
+            {
+                Console.WriteLine("Artist not found in MP3 playlist");
+            }
             break;
 
         // menu option for diplaying mp3 songs alpabetically
@@ -555,6 +565,10 @@ while (choice != Choices.End)
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                playlist1.SaveNeeded = true;
             }
 
             break;
