@@ -39,7 +39,7 @@ string SongTitle = ""; // variables to store values for mp3, named appropriately
 string Artist = "";
 string SongReleaseDate = "";
 double PlaybackTimeMins = 0;
-Genre Genre = Genre.Rock;
+Genre Genre = Genre.ROCK;
 decimal DownloadCost = 0;
 double FileSizeMBs = 0;
 string Path = "";
@@ -191,7 +191,7 @@ while (choice != Choices.End)
             try // try catch statment to make sure that genre input does not crash the program. 
             {
                 Console.WriteLine("\nEnter Song Genre. (Rock, Pop, Jazz, Country, Classical, or Other)");
-                string input = Console.ReadLine();
+                string input = Console.ReadLine().ToUpper();
                 Genre = (Genre)Enum.Parse(typeof(Genre), input);
             }
             catch (Exception e) // catch for all possible exceptions
@@ -274,7 +274,8 @@ while (choice != Choices.End)
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message + "");
+                Console.WriteLine(e.Message + "Song not found");
+                Console.ReadKey();
             }
             break;
 
@@ -524,7 +525,7 @@ while (choice != Choices.End)
                 Genre Genre1;
                 string GenreString = "";
                 Console.Write("What Genre would you like to display? (Rock, Pop, Jazz, Country, Classical, or Other) ");
-                GenreString = Console.ReadLine();
+                GenreString = Console.ReadLine().ToUpper();
                 Genre1 = (Genre)Enum.Parse(typeof(Genre), GenreString); // variable to pass to indicate what genre user wants to display. 
                 Console.WriteLine($"\n{playlist1.DisplayByGenre(Genre1)}"); // calling displaybyGenre method. 
                 Console.ReadKey();

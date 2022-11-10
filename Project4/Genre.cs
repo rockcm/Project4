@@ -26,12 +26,12 @@ namespace Project3MP3
     public enum Genre
     {
 
-        Rock = 1, // lists out Genres
-        Pop,
-        Jazz,
-        Country,
-        Classical,
-        Other
+        ROCK = 1, // lists out Genres
+        POP,
+        JAZZ,
+        COUNTRY,
+        CLASSICAL,
+        OTHER
 
 
     }

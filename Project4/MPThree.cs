@@ -36,7 +36,7 @@ public class MPThree
         Artist = "";
         SongReleaseDate = "";
         PlaybackTimeMins = 0;
-        Genre = Genre.Rock;
+        Genre = Genre.ROCK;
         DownloadCost = 0;
         FileSizeMBs = 0;
         Path = "";

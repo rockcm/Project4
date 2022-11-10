@@ -369,7 +369,7 @@ namespace Project3MP3
                         string[] fields = textLine.Split("|");
                         str = fields[4];
 
-                        MPThree mp3 = new MPThree(fields[0], fields[1], fields[2], Convert.ToDouble(fields[3]), Enum.Parse<Genre>(fields[4]), Convert.ToDecimal(fields[5]), Convert.ToDouble(fields[6]), fields[7]);
+                        MPThree mp3 = new MPThree(fields[0], fields[1], fields[2], Convert.ToDouble(fields[3]), Enum.Parse<Genre>(fields[4].ToUpper()), Convert.ToDecimal(fields[5]), Convert.ToDouble(fields[6]), fields[7]);
                         MP3Playlist.Add(mp3);
                     }
                     catch (Exception e)
@@ -380,7 +380,7 @@ namespace Project3MP3
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+               
             }
             finally
             {
