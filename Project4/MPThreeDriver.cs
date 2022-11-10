@@ -515,13 +515,19 @@ while (choice != Choices.End)
 
         // menu option for displaying all mp3's of a certain genre. 
         case Choices.DisplayByGenre:
-            Genre Genre1;
-            string GenreString = "";
-            Console.Write("What Genre would you like to display? (Rock, Pop, Jazz, Country, Classical, or Other) ");
-            GenreString = Console.ReadLine();
-            Genre1 = (Genre)Enum.Parse(typeof(Genre), GenreString); // variable to pass to indicate what genre user wants to display. 
-            Console.WriteLine($"\n{playlist1.DisplayByGenre(Genre1)}"); // calling displaybyGenre method. 
-            Console.ReadKey();
+            try
+            {
+                Genre Genre1;
+                string GenreString = "";
+                Console.Write("What Genre would you like to display? (Rock, Pop, Jazz, Country, Classical, or Other) ");
+                GenreString = Console.ReadLine();
+                Genre1 = (Genre)Enum.Parse(typeof(Genre), GenreString); // variable to pass to indicate what genre user wants to display. 
+                Console.WriteLine($"\n{playlist1.DisplayByGenre(Genre1)}"); // calling displaybyGenre method. 
+                Console.ReadKey();
+            }catch(Exception e)
+            {
+
+            }
             break;
 
         // menu option for diplaying all songs by a given artist. 
