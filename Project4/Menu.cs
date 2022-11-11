@@ -1,6 +1,6 @@
 ﻿///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//	Solution/Project:  Project3
+//	Solution/Project:  Project4
 //	File Name:         Menu.cs
 //	Description:       Allows a menu to be created, displayed in a Console window, and gathers a user's choice and
 //                     validates it.

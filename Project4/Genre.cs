@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////
 //
-// Project: Project3
+// Project: Project4
 // File Name: Genre.cs
 // Description: Lists potential genres for MP3 object.
 // Course: CSCI 1260 – Introduction to Computer Science II

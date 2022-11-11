@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////
 //
-// Project: Project3
+// Project: Project4
 // File Name: MPThreeDriver.cs
 // Description: Demonstrates the functionality of the MP3 class by allowing for the creation and display of an MP3 object to the screen with user input.
 // Allows for list of MP3's 
@@ -219,38 +219,61 @@ while (choice != Choices.End)
         case Choices.DropAnMP3:
             MPThree MP3ToDrop;
 
-            try
-            {
-                Console.Write("MP3's in playlist will be displayed below. \n");
-                foreach (MPThree mp3 in playlist1.GetPlaylist())
+            
+                try
                 {
-                    Console.WriteLine($"\n{mp3}");
+                    Console.Write("MP3's in playlist will be displayed below. \n");
+                    try // try catch for if no playlist was made
+                    {
+                        foreach (MPThree mp3 in playlist1.GetPlaylist())
+                        {
+                            Console.WriteLine($"\n{mp3}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("playlist not created, please create one first.");
+                    }
+
+                    Console.WriteLine("What is the name of the Song you would like to remove from the playlist? ");
+                    Song = Console.ReadLine();
+                    try
+                    {
+                    MP3ToDrop = playlist1.FindByTitle(playlist1, Song); // takes in the user input for song to drop and the playlist its in. 
+                    playlist1.RemoveSong(MP3ToDrop); // drops the mp3 with that song name
+                    playlist1.SaveNeeded = true;
+                    Console.WriteLine($"{Song} has been dropped from the playlsit.");
+                    Console.ReadKey();
+                    }
+                    catch(NullReferenceException)
+                    {
+                    Console.WriteLine("No playlist has been made.");
+                    Console.ReadKey();
+                    }
+                    catch (Exception ex)
+                    {
+                    Console.WriteLine("NO MP3 AVAILABLE TO DROP");
+                    Console.ReadKey();
+                    }
+                
+
+
                 }
-
-                Console.WriteLine("What is the name of the Song you would like to remove from the playlist? ");
-                Song = Console.ReadLine();
-                MP3ToDrop = playlist1.FindByTitle(playlist1, Song); // takes in the user input for song to drop and the playlist its in. 
-                playlist1.RemoveSong(MP3ToDrop); // drops the mp3 with that song name
-                Console.WriteLine($"{Song} has been dropped from the playlsit.");
-                Console.ReadKey();
-            }
-            catch (FormatException e)
-            {
-                Console.WriteLine("Format Exceptiion, program will continue.  Could not locate MP3 file. Please try again");
-            }
-            catch (SystemException e)
-            {
-                Console.WriteLine($"System Exception: {e.Message}. Could not locate MP3 file. Please try again");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message + ". Could not locate MP3 file. Please try again");
-            }
-            finally
-            {
-                playlist1.SaveNeeded = true;
-            }
-
+                catch (FormatException  e)
+                {
+                    Console.WriteLine("Format Exceptiion, program will continue.  Could not locate MP3 file. Please try again");
+                }
+                catch (SystemException e)
+                {
+                    Console.WriteLine($"System Exception: {e.Message}. Could not locate MP3 file. Please try again");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message + ". Could not locate MP3 file. Please try again");
+                }
+               
+            
+          
             break;
 
         // menu option for Diplaying a song from the Playlist, using the find by title method. 
@@ -274,7 +297,7 @@ while (choice != Choices.End)
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message + "Song not found");
+                Console.WriteLine(" Song not found, please try again");
                 Console.ReadKey();
             }
             break;
@@ -363,14 +386,21 @@ while (choice != Choices.End)
             {
 
                 case "Artist":  // option if the user want to edit the Artist
-                   
+                    try
+                    {
                         Console.WriteLine($"\nWhat would you like the new artist name to be? ");
                         mp3ToEdit.Artist = Console.ReadLine();
                         Console.WriteLine($"\nHere is mp3 after edit: ");
                         Console.WriteLine();
                         Console.WriteLine(mp3ToEdit);
                         Console.ReadKey();
-                    
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message + ". Please try again");
+                        Console.ReadKey();
+                    }
+
                     break;
 
                     
@@ -471,11 +501,19 @@ while (choice != Choices.End)
                     break;
 
                 case "Path": // option if the user want to edit the Path
-                    Console.WriteLine($"\nWhat would you like the new Path to be? ");
-                    mp3ToEdit.Path = Console.ReadLine();
-                    Console.WriteLine();
-                    Console.WriteLine(mp3ToEdit);
-                    Console.ReadKey();
+                    try
+                    {
+                        Console.WriteLine($"\nWhat would you like the new Path to be? ");
+                        mp3ToEdit.Path = Console.ReadLine();
+                        Console.WriteLine();
+                        Console.WriteLine(mp3ToEdit);
+                        Console.ReadKey();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message + ". Please try again");
+                        Console.ReadKey();
+                    }
 
                     break;
             } // allows for the editing of the mp3 with this method
@@ -493,6 +531,8 @@ while (choice != Choices.End)
                 if (playlist1 == null)
                 {
                     Console.WriteLine("Please create a playlist and add an MP3 first");
+                    Console.ReadKey();
+
                 }
                 else
                 {
@@ -502,6 +542,7 @@ while (choice != Choices.End)
                     {
                         Console.WriteLine($"\n{mp3}");
                     }
+                    playlist1.SaveNeeded = true;
                     Console.ReadKey();
                 }
                 
@@ -509,44 +550,62 @@ while (choice != Choices.End)
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.ReadKey();
             }
-            finally
-            {
-                playlist1.SaveNeeded = true;
-            }
+           
+            
             break;
 
 
 
         // menu option for displaying all mp3's of a certain genre. 
         case Choices.DisplayByGenre:
-            try
+            if (playlist1 != null)
             {
+
                 Genre Genre1;
                 string GenreString = "";
                 Console.Write("What Genre would you like to display? (Rock, Pop, Jazz, Country, Classical, or Other) ");
                 GenreString = Console.ReadLine().ToUpper();
-                Genre1 = (Genre)Enum.Parse(typeof(Genre), GenreString); // variable to pass to indicate what genre user wants to display. 
-                Console.WriteLine($"\n{playlist1.DisplayByGenre(Genre1)}"); // calling displaybyGenre method. 
-                Console.ReadKey();
-            }catch(Exception e)
-            {
-                Console.WriteLine("Invalin genre option entered.");
+                try
+                {
+                    Genre1 = (Genre)Enum.Parse(typeof(Genre), GenreString); // variable to pass to indicate what genre user wants to display. 
+                    Console.WriteLine($"\n{playlist1.DisplayByGenre(Genre1)}"); // calling displaybyGenre method. 
+                    Console.ReadKey();
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("Please enter a valid genre");
+                    Console.ReadKey();
+                }
             }
+            else
+            {
+                Console.WriteLine("Please create a playlist and add MP3's.");
+                Console.ReadKey();
+            }
+
+
             break;
 
         // menu option for diplaying all songs by a given artist. 
         case Choices.DisplayAllByArtist:
-            try
+
+            if (playlist1 != null)
             {
-                string ArtistToDisplay;
-                Console.WriteLine("What artist would you like to display? ");
-                ArtistToDisplay = Console.ReadLine();
-                Console.WriteLine(playlist1.DisplayByArtist(ArtistToDisplay)); // passes user input to display all mp3's with that input
+               
+                    string ArtistToDisplay;
+                    Console.WriteLine("What artist would you like to display? ");
+                    ArtistToDisplay = Console.ReadLine();
+                    Console.WriteLine(playlist1.DisplayByArtist(ArtistToDisplay)); // passes user input to display all mp3's with that input               
+                    Console.ReadKey();
+
+               
+            }
+            else
+            {
+                Console.WriteLine("Please create a playlist and add MP3's.");
                 Console.ReadKey();
-            }catch(Exception e)
-            {
-                Console.WriteLine("Artist not found in MP3 playlist");
             }
             break;
 
@@ -561,16 +620,15 @@ while (choice != Choices.End)
                 {
                     Console.WriteLine($"\n{mp3}\n");
                 }
+                playlist1.SaveNeeded = true;
                 Console.ReadKey();
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " No playlist has been made. Please create one.");
+                Console.ReadKey();
             }
-            finally
-            {
-                playlist1.SaveNeeded = true;
-            }
+            
 
             break;
 
@@ -611,6 +669,7 @@ while (choice != Choices.End)
                 Console.WriteLine("Please type in the file you would like to save to");
                 file = Console.ReadLine();
                 playlist1.SaveToFile(file); // calling save method 
+                Console.WriteLine($"\nPlaylist has been loaded");
             }
             catch(Exception e)
             {
@@ -645,6 +704,11 @@ if (choice == Choices.End) // statement for if the user selects "end" to say goo
                         SaveNeededFile = Console.ReadLine();
 
                         playlist1.SaveToFile(SaveNeededFile);
+
+
+                        Console.WriteLine("Changes have been saved,");
+                        Console.WriteLine($"\nThank you, {name} for using my program. Press any key to end.");
+                        Console.ReadKey();
                     }
                     else if (End == "N" || End == "NO")
                     {
@@ -661,10 +725,6 @@ if (choice == Choices.End) // statement for if the user selects "end" to say goo
                 Console.WriteLine(e.Message + " Please try again");
             }
 
-
-            Console.WriteLine("Changes have been saved,");
-            Console.WriteLine($"\nThank you, {name} for using my program. Press any key to end.");
-            Console.ReadKey();
         }
         else // if changes were not made. 
         {

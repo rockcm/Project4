@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////
 //
-// Project: Project3
+// Project: Project4
 // File Name:Playlist.cs
 // Description: Demonstrates the functionality of the MP3 class by allowing for the creation of a list of mp3 objects and
 // the manipulation of those objects by editing, sorting and displaying them
@@ -86,7 +86,11 @@ namespace Project3MP3
         /// <returns>The playlist with its current values</returns>
         public List<MPThree> GetPlaylist()
         {
-            return MP3Playlist;
+           
+         
+                return MP3Playlist;
+            
+          
         }
 
 
@@ -96,8 +100,15 @@ namespace Project3MP3
         /// <param name="MP3">The value of the object being passed</param>
         public void AddToList(MPThree MP3)
         {
-            MP3Playlist.Add(MP3);
-           
+            try
+            {
+                MP3Playlist.Add(MP3);
+            }
+            catch (Exception e)
+            {
+
+            }
+
         }
 
 
@@ -107,7 +118,14 @@ namespace Project3MP3
         /// <param name="i">the value for i being passed</param>
         public void RemovePlaylistAt(int i)
         {
-            MP3Playlist.RemoveAt(i);
+            try
+            {
+                MP3Playlist.RemoveAt(i);
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
 
@@ -118,7 +136,13 @@ namespace Project3MP3
         /// <param name="mp3">The value of the object being passed for removal</param>
         public void RemoveSong(MPThree mp3)
         {
-            MP3Playlist.Remove(mp3);
+            try
+            {
+                MP3Playlist.Remove(mp3);
+            }catch(Exception e)
+            {
+
+            }
           
         }
 
@@ -130,7 +154,9 @@ namespace Project3MP3
         /// <returns>the value for the size of the list</returns>
         public int PlaylistSize()
         {
-            return MP3Playlist.Count;
+          
+                return MP3Playlist.Count;
+            
         }
 
 
@@ -143,21 +169,32 @@ namespace Project3MP3
         /// <returns>the mp3 at a given position</returns>
         public MPThree FindByTitle(Playlist mp3, string itemToFind)
         {
-            int index = 0;
-            int foundPos = -1;
-            bool found = false;
-            while (index < MP3Playlist.Count && !found) // loop to go through the list while the mp3 were looking for has not been found
+            
+                int index = 0;
+                int foundPos = -1;
+                bool found = false;
+            try
             {
-                if (MP3Playlist[index].SongTitle == itemToFind) // if the title of the mp3 matches one we are searching for.. 
+                while (index < MP3Playlist.Count && !found) // loop to go through the list while the mp3 were looking for has not been found
                 {
-                    found = true;   // then we update found to true 
-                    foundPos = index;// and update foundpos to the index position it was found at. 
+                    if (MP3Playlist[index].SongTitle == itemToFind) // if the title of the mp3 matches one we are searching for.. 
+                    {
+                        found = true;   // then we update found to true 
+                        foundPos = index;// and update foundpos to the index position it was found at. 
 
+                    }
+
+                    index++;
                 }
-
-                index++;
             }
+            catch (NullReferenceException e)
+            {
+               
+            }
+            catch (Exception e)
+            {
 
+            }
             return MP3Playlist[foundPos];
         }
 
@@ -170,25 +207,29 @@ namespace Project3MP3
         /// </summary>
         public void SortByReleaseDates(List<MPThree> playlist, int size)
         {
-
-            for (int i = size; i > 1; i--) // for loop that goes through the length of the list and moves the largest item to the end, effectively sorting the list.
-            {
-                int largestPos = FindLargestDate(MP3Playlist, i); // calls method to find the largest
-
-                // if it is not last item, then we swap.
-
-                if (largestPos != i - 1)
+           
+                for (int i = size; i > 1; i--) // for loop that goes through the length of the list and moves the largest item to the end, effectively sorting the list.
                 {
-                    // swapping mp3 postitions
-                    MPThree temp = MP3Playlist[largestPos];
-                    MP3Playlist[largestPos] = MP3Playlist[i - 1];
-                    MP3Playlist[i - 1] = temp;
+                    int largestPos = FindLargestDate(MP3Playlist, i); // calls method to find the largest
 
+                    // if it is not last item, then we swap.
+
+                    if (largestPos != i - 1)
+                    {
+                        // swapping mp3 postitions
+                        MPThree temp = MP3Playlist[largestPos];
+                        MP3Playlist[largestPos] = MP3Playlist[i - 1];
+                        MP3Playlist[i - 1] = temp;
+
+                    }
                 }
+            
+            
+            
 
 
-            }
         }
+        
 
 
         /// <summary>
@@ -199,6 +240,8 @@ namespace Project3MP3
         public string DisplayByGenre(Genre Genre)
         {
             string msg = ""; // new empty string
+            string msg2 = "";
+
             for (int i = 0; i < MP3Playlist.Count; i++) // loop that checks if the genre of the MP3 at postition 'i' is the same as the user input for genre and displays it in a list if so.
             {
                 if (MP3Playlist[i].Genre == Genre) // checks to see if the MP3 has the same genre as the genre passed.
@@ -207,12 +250,13 @@ namespace Project3MP3
                 }
                 else
                 {
-                    msg = "No MP3's found with that genre";
+                    
+                    msg2 = "No MP3's found with that genre";
+                    
                 }
             }
-            
-
-            return msg;
+            if (msg != "") { return msg; }
+            else { return msg2; }
         }
 
         /// <summary>
@@ -223,19 +267,27 @@ namespace Project3MP3
         public string DisplayByArtist(string artist)
         {
             string msg = ""; // new empty string 
-            for (int i = 0; i < MP3Playlist.Count; i++) // loop that checks if the artist of the MP3 at postition 'i' is the same as the user input for genre and displays it in a list if so.
-            {
-                if (MP3Playlist[i].Artist == artist)  // checks to see if the MP3 has the same genre as the artist passed.
-                {
-                    msg += $"\n\n{MP3Playlist[i].ToString()}"; // adds mp3 to list
-                }
-                else
-                {
-                    msg = "No MP3's found with that Artist";
-                }
-            }
+            string msg2 = "";
 
-            return msg;
+
+                for (int i = 0; i < MP3Playlist.Count; i++) // loop that checks if the artist of the MP3 at postition 'i' is the same as the user input for genre and displays it in a list if so.
+                {
+                    if (MP3Playlist[i].Artist == artist)  // checks to see if the MP3 has the same genre as the artist passed.
+                    {
+                        msg += $"\n\n{MP3Playlist[i].ToString()}"; // adds mp3 to list
+
+                    }
+                    else
+                    {
+                        
+                        msg2 = "No MP3's found with that Artist";
+                    }
+                }
+            if (msg != "") { return msg; }
+            else { return msg2; }
+          
+
+            
         }
 
 
@@ -249,7 +301,7 @@ namespace Project3MP3
         public void DisplayBySong(int size)
         {
 
-            //
+          
             for (int i = size; i > 1; i--) // for loop that allows for the moving of the largest item to the end, effectively sorting the list.
             {
                 int largestPos = FindLargest(MP3Playlist, i); // finds the largest value 
@@ -283,17 +335,23 @@ namespace Project3MP3
         public int FindLargest(List<MPThree> playlist, int size)
         {
             int posOfLargest = 0;
-
-            for (int i = 1; i < size; i++) // loop to check if the value of one variable against the value of another variable
+            try
             {
-                if (playlist[i].SongTitle.CompareTo(playlist[posOfLargest].SongTitle) > 0) // compares the objects next to each other and updates posOfLargest with the item that is bigger. 
-                {
-                    posOfLargest = i;
-                }
 
+                for (int i = 1; i < size; i++) // loop to check if the value of one variable against the value of another variable
+                {
+                    if (playlist[i].SongTitle.CompareTo(playlist[posOfLargest].SongTitle) > 0) // compares the objects next to each other and updates posOfLargest with the item that is bigger. 
+                    {
+                        posOfLargest = i;
+                    }
+
+
+                }
+            }
+            catch (Exception e)
+            {
 
             }
-
             return posOfLargest;
         }
 
@@ -309,27 +367,33 @@ namespace Project3MP3
             int posOfLargest = 0;
 
 
-
-
-            for (int i = 1; i < size; i++) // loop to check if the value of one variable against the value of another variable, goes through all items in list.
+            try
             {
 
-                string[] strarr = playlist[i].SongReleaseDate.Split("/"); // splits the song release date at the "i" position into 3 strings based off the delimiter "/"
-                string[] strarr2 = playlist[posOfLargest].SongReleaseDate.Split("/"); //  splits the song release date at the "posOfLargest" position into 3 strings based off the delimiter "/"
-                if (strarr[2].CompareTo(strarr2[2]) > 0) // compares the year first 
+                for (int i = 1; i < size; i++) // loop to check if the value of one variable against the value of another variable, goes through all items in list.
                 {
-                    posOfLargest = i;
+
+                    string[] strarr = playlist[i].SongReleaseDate.Split("/"); // splits the song release date at the "i" position into 3 strings based off the delimiter "/"
+                    string[] strarr2 = playlist[posOfLargest].SongReleaseDate.Split("/"); //  splits the song release date at the "posOfLargest" position into 3 strings based off the delimiter "/"
+                    if (strarr[2].CompareTo(strarr2[2]) > 0) // compares the year first 
+                    {
+                        posOfLargest = i;
+
+                    }
+                    else if (strarr[2].CompareTo(strarr2[2]) == 0 && strarr[0].CompareTo(strarr2[0]) > 0) // compares the month next
+                    {
+                        posOfLargest = i;
+                    }
+                    else if (strarr[0].CompareTo(strarr2[0]) == 0 && strarr[1].CompareTo(strarr2[1]) > 0) // compares the day next
+                    {
+                        posOfLargest = i;
+                    }
+
 
                 }
-                else if (strarr[2].CompareTo(strarr2[2]) == 0 && strarr[0].CompareTo(strarr2[0]) > 0) // compares the month next
-                {
-                    posOfLargest = i;
-                }
-                else if (strarr[0].CompareTo(strarr2[0]) == 0 && strarr[1].CompareTo(strarr2[1]) > 0) // compares the day next
-                {
-                    posOfLargest = i;
-                }
-
+            }
+            catch (Exception e)
+            {
 
             }
             return posOfLargest;
@@ -403,8 +467,6 @@ namespace Project3MP3
             try // try cathch to make sure program does not crash during save to file. 
             {
 
-
-              
                 
                 writer = new StreamWriter(fileName); // passing the filed name to the writer
                 writer.WriteLine(PlaylistName + "|" + PlaylistAuthor + "|" + PlaylistDate);
@@ -415,7 +477,7 @@ namespace Project3MP3
             }
             catch (Exception e) // catch for all exceptions
             {
-                Console.WriteLine(e.Message);
+                
             }
             finally // finally to close the writer 
             {

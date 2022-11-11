@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////
 //
-// Project: Project3
+// Project: Project4
 // File Name: Choices.cs
 // Description: Possible choices to select for the menu.  
 // Course: CSCI 1260 – Introduction to Computer Science II

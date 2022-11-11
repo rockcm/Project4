@@ -1,10 +1,10 @@
 Bopz|Chris|10/10/1212
-Jesus Walks|Kanye West|10/21/2001|3.45|POP|1.29|123.3|collegeDropout.jpg
-Paris|Suicide Boys|12/23/2019|3.21|OTHER|1.29|123.3|Suicide.jpg
-Mercy Mercy Mercy|Cannonball Adderly|01/23/1969|3.34|JAZZ|1.29|234|cannonball.jpg
-Wagon Wheel|Old Crow Medicine Show|12/23/1997|453|COUNTRY|1.29|342|ocm.jpg
-Renegade|Jay-Z|04/02/2001|342|OTHER|1.29|123.3|jayz.jpg
 Fat Lip|Sum-41|01/12/1999|3.44|ROCK|1.29|12.2|sum41.jpg
+Jesus Walks|Kanye West|10/21/2001|3.45|POP|1.29|123.3|collegeDropout.jpg
+Mercy Mercy Mercy|Cannonball Adderly|01/23/1969|3.34|JAZZ|1.29|234|cannonball.jpg
+Paris|Suicide Boys|12/23/1997|3.45|OTHER|1.29|123.3|collegeDropout.jpg
+Paris|Suicide Boys|12/23/2019|3.21|OTHER|1.29|123.3|Suicide.jpg
+Renegade|Jay-Z|04/02/2001|342|OTHER|1.29|123.3|jayz.jpg
 The 5th|Beethoven|11/22/1934|23.2|CLASSICAL|1.29|121|beethoven.jpg
 Tokyo|Skeler|05/13/2022|1.32|OTHER|1.29|123.3|skeler.jpg
-Paris|Suicide Boys|12/23/1997|3.45|OTHER|1.29|123.3|collegeDropout.jpg
+Wagon Wheel|Old Crow Medicine Show|12/23/1997|453|COUNTRY|1.29|342|ocm.jpg
