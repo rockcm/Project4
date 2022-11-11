@@ -265,11 +265,11 @@ while (choice != Choices.End)
                 }
                 catch (SystemException e)
                 {
-                    Console.WriteLine($"System Exception: {e.Message}. Could not locate MP3 file. Please try again");
+                    Console.WriteLine($"Could not locate MP3 file. Please try again");
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message + ". Could not locate MP3 file. Please try again");
+                    Console.WriteLine("Could not locate MP3 file. Please try again");
                 }
                
             
@@ -353,7 +353,7 @@ while (choice != Choices.End)
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message + "Please create a Playlist and add an MP3.");
+                    Console.WriteLine("Please create a Playlist and add an MP3.");
                 }
 
                 try
@@ -364,7 +364,7 @@ while (choice != Choices.End)
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message + ". Unable to find MP3 file. Please try again. (Search by song title.");
+                    Console.WriteLine(". Unable to find MP3 file. Please try again. (Search by song title.");
                     Console.ReadKey();
                 }
                 try
@@ -374,7 +374,7 @@ while (choice != Choices.End)
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message + ". Please try again");
+                    Console.WriteLine(". Please try again");
                     Console.ReadKey();
                 }
                 finally
@@ -514,6 +514,11 @@ while (choice != Choices.End)
                         Console.WriteLine(e.Message + ". Please try again");
                         Console.ReadKey();
                     }
+                    break;
+
+                default:
+                    Console.WriteLine($"\nInvalid selection, please select a valid edit option.");
+                    Console.ReadKey();
 
                     break;
             } // allows for the editing of the mp3 with this method
@@ -651,10 +656,12 @@ while (choice != Choices.End)
                 Console.WriteLine("What is the file you would like to load from");
                 file = Console.ReadLine();
                 playlist1.FillFromFile(file); // calling fill method that loads a playlist to the program. 
+                Console.WriteLine($"\nPlaylist has been loaded");
+                Console.ReadKey();             
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message + " Please try again, unable to read from file location. No playlist created");
+                Console.WriteLine( " Please try again, unable to read from file location. No playlist created");
                 Console.ReadKey();
             }
             break;
@@ -669,11 +676,12 @@ while (choice != Choices.End)
                 Console.WriteLine("Please type in the file you would like to save to");
                 file = Console.ReadLine();
                 playlist1.SaveToFile(file); // calling save method 
-                Console.WriteLine($"\nPlaylist has been loaded");
+
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message + ". Please try again, unable to save to file location");
+                Console.WriteLine( " Please try again, unable to save to file location");
+                Console.ReadKey();
             }
             break;
 
