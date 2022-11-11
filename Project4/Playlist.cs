@@ -7,7 +7,7 @@
 // the manipulation of those objects by editing, sorting and displaying them
 // Course: CSCI 1260 – Introduction to Computer Science II
 // Author: Christian Rock
-// Created: 10/19/22
+// Created: 11/04/22
 // Copyright: Christian Rock, 2022
 //
 //////////////////////////////////////////////////////////////////////////////////////
@@ -428,7 +428,7 @@ namespace Project3MP3
                 while (sr.Peek() != -1) // while there is text left to be read
                 {
                     try
-                    { // creates an mp3 from text in the file, delimiter is |.
+                    { // creates an mp3 from text in the file, splitting on the delimiter |, then creating the mp3 from each split field.
                         string str = "";
                         string textLine = sr.ReadLine();
                         string[] fields = textLine.Split("|");
@@ -459,7 +459,7 @@ namespace Project3MP3
         /// <summary>
         /// Saves the plalist info in a file with a delimeter seperaator "|"
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">the name of the file to save to</param>
         public void SaveToFile(string fileName)
         {
             StreamWriter writer = null; // initialized writer to null 

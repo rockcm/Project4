@@ -7,5 +7,5 @@ Renegade|Jay-Z|04/02/2001|342|OTHER|1.29|123.3|jayz.jpg
 The 5th|Beethoven|11/22/1934|23.2|CLASSICAL|1.29|121|beethoven.jpg
 Tokyo|Skeler|05/13/2022|1.32|OTHER|1.29|123.3|skeler.jpg
 Wagon Wheel|Old Crow Medicine Show|12/23/1997|453|COUNTRY|1.29|342|ocm.jpg
-Say Cheese and Die|Suicide Boys|12/23/2020|3.45|Other|1.29|123.3|suicide.jpg
-Many Men|50 Cent|02/22/2001|3.47|Other|1.29|123.3|50.jpg
+Say Cheese and Die|Suicide Boys|12/23/2020|3.45|OTHER|1.29|123.3|suicide.jpg
+Many Men|50 Cent|02/22/2001|3.47|OTHER|1.29|123.3|50.jpg

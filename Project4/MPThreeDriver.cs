@@ -7,7 +7,7 @@
 // Allows for list of MP3's 
 // Course: CSCI 1260 – Introduction to Computer Science II
 // Author: Christian Rock
-// Created: 10/19/2022
+// Created: 11/04/2022
 // Copyright: Christian Rock, 2022
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,14 +45,13 @@ double FileSizeMBs = 0;
 string Path = "";
 string file = "";
 MPThree mp3ToEdit = new MPThree(); // mp3 that will be used to edit 
-string End = "";
-string SaveNeededFile;
-
+string End = ""; // input for if user wants to end without saving
+string SaveNeededFile; // file attribute for passing to save method
 string UserInput = ""; // user input for authors name 
 string UserInput2 = ""; // user input for name of playlist 
 string UserInput3 = ""; // user input for date playlist was made.
 string Song = ""; // user input to indicate what song to look for or display 
-string partToEdit = "";
+string partToEdit = ""; // the part of the mp3 being edited
 
 
 Playlist playlist1 = null;
@@ -139,75 +138,85 @@ while (choice != Choices.End)
 
         // menu option for creating a new mp3 object.
         case Choices.CreateNewMP3: // option for creating and mp3 object / asks questions to create MP3 object and store values in variables with related namme.  
-            try
-            {
 
-                Console.WriteLine("You selected Create a new MP3 file");
-                Console.WriteLine("\nPress any key to continue");
+            if (playlist1 == null)
+            {
+                Console.WriteLine("Please create a playlist first.");
                 Console.ReadKey();
-                Console.WriteLine("\nPlease enter Song Title");
-                SongTitle = Console.ReadLine();
-                Console.WriteLine("\nEnter Artist Name");
-                Artist = Console.ReadLine();
-                Console.WriteLine("\nEnter Song Release Date");
-                SongReleaseDate = Console.ReadLine();
+            }
+            else
+            {
                 try
                 {
-                    Console.WriteLine("\nEnter Song playback time");
-                    PlaybackTimeMins = Convert.ToDouble(Console.ReadLine());
+
+                    Console.WriteLine("You selected Create a new MP3 file");
+                    Console.WriteLine("\nPress any key to continue");
+                    Console.ReadKey();
+                    Console.WriteLine("\nPlease enter Song Title");
+                    SongTitle = Console.ReadLine();
+                    Console.WriteLine("\nEnter Artist Name");
+                    Artist = Console.ReadLine();
+                    Console.WriteLine("\nEnter Song Release Date");
+                    SongReleaseDate = Console.ReadLine();
+                    try
+                    {
+                        Console.WriteLine("\nEnter Song playback time");
+                        PlaybackTimeMins = Convert.ToDouble(Console.ReadLine());
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message + " Can edit file's playback time later if you would like.");
+                    }
+                    try
+                    {
+                        Console.WriteLine("\nEnter Song Download Cost");
+                        DownloadCost = Convert.ToDecimal(Console.ReadLine());
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message + " Can edit file's download cost later if you would like.");
+                    }
+                    try
+                    {
+                        Console.WriteLine("\nEnter File Size");
+                        FileSizeMBs = Convert.ToDouble(Console.ReadLine());
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message + " Can edit file's file size later if you would like.");
+                    }
+
+                    Console.WriteLine("\nEnter Song Path");
+                    Path = Console.ReadLine();
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message + " Can edit file's playback time later if you would like.");
-                }
-                try
-                {
-                    Console.WriteLine("\nEnter Song Download Cost");
-                    DownloadCost = Convert.ToDecimal(Console.ReadLine());
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message + " Can edit file's download cost later if you would like.");
-                }
-                try
-                {
-                    Console.WriteLine("\nEnter File Size");
-                    FileSizeMBs = Convert.ToDouble(Console.ReadLine());
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message + " Can edit file's file size later if you would like.");
+                    Console.WriteLine(e.Message + " Can edit file's later if you would like.");
                 }
 
-                Console.WriteLine("\nEnter Song Path");
-                Path = Console.ReadLine();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message + " Can edit file's later if you would like.");
-            }
 
-
-            try // try catch statment to make sure that genre input does not crash the program. 
-            {
-                Console.WriteLine("\nEnter Song Genre. (Rock, Pop, Jazz, Country, Classical, or Other)");
-                string input = Console.ReadLine().ToUpper();
-                Genre = (Genre)Enum.Parse(typeof(Genre), input);
-            }
-            catch (Exception e) // catch for all possible exceptions
-            {
-                Console.WriteLine($"Error: {e.Message}. Genre was not valid, value will be set to on of the available Genre's. You can edit this later if you would like. ");
-            }
-            finally
-            { // continues with creation of mp3 from the user input values above. 
-                MP3 = new MPThree(SongTitle, Artist, SongReleaseDate, PlaybackTimeMins, Genre, DownloadCost, FileSizeMBs, Path);
-                playlist1.AddToList(MP3);
-                Console.WriteLine($"\n{MP3}");
-                Console.WriteLine("\nPress any key to continue");
-                Console.ReadKey();
-                Console.WriteLine($"\nThank you, {name} for using my program. Press any key to go back to main menu.");
-                Console.ReadKey();
-                playlist1.SaveNeeded = true;
+                try // try catch statment to make sure that genre input does not crash the program. 
+                {
+                    Console.WriteLine("\nEnter Song Genre. (Rock, Pop, Jazz, Country, Classical, or Other)");
+                    string input = Console.ReadLine().ToUpper();
+                    Genre = (Genre)Enum.Parse(typeof(Genre), input);
+                }
+                catch (Exception e) // catch for all possible exceptions
+                {
+                    Console.WriteLine($"Error: {e.Message}. Genre was not valid, value will be set to on of the available Genre's. You can edit this later if you would like. ");
+                }
+                finally
+                { // continues with creation of mp3 from the user input values above. 
+                    MP3 = new MPThree(SongTitle, Artist, SongReleaseDate, PlaybackTimeMins, Genre, DownloadCost, FileSizeMBs, Path);
+                    playlist1.AddToList(MP3);
+                    Console.WriteLine($"\n{MP3}");
+                    Console.WriteLine("\nPress any key to continue");
+                    Console.ReadKey();
+                    Console.WriteLine($"\nThank you, {name} for using my program. Press any key to go back to main menu.");
+                    playlist1.SaveNeeded = true;
+                    Console.ReadKey();
+                  
+                }
             }
             break;
 
@@ -333,14 +342,14 @@ while (choice != Choices.End)
 
             break;
 
-        // menu option for editing a part of an MP3 object.
+        // menu option for editing a part of an MP3 object, allows user to edit the individual parts of an MP3.
         case Choices.EditAnMP3:
-            if (playlist1 == null)
+            if (playlist1 == null) // if statement for is the playlist has not been made
             {
                 Console.WriteLine("Please create a Playlist and add an MP3.");
                 Console.ReadKey();
             }
-            else
+            else // else if it has been made continure with asking questions to edit
             {
                 try
                 {
@@ -370,7 +379,7 @@ while (choice != Choices.End)
                 try
                 {
                     Console.Write("\nWhat part of the MP3 would you like to edit? Enter one of the following ( Song Title, Artist, Playback Time, Genre, Path, Download Cost, File Size, or Release Date) ");
-                    partToEdit = Console.ReadLine();
+                    partToEdit = Console.ReadLine().ToUpper(); // taking a string from the user to indicate which part should be edited 
                 }
                 catch (Exception e)
                 {
@@ -385,7 +394,7 @@ while (choice != Choices.End)
             switch (partToEdit) // switch statment depending on which part user wants to edit. 
             {
 
-                case "Artist":  // option if the user want to edit the Artist
+                case "ARTIST":  // option if the user want to edit the Artist
                     try
                     {
                         Console.WriteLine($"\nWhat would you like the new artist name to be? ");
@@ -404,7 +413,7 @@ while (choice != Choices.End)
                     break;
 
                     
-                case "Release Date": // option if the user want to edit the Release Date
+                case "RELEASE DATE": // option if the user want to edit the Release Date
 
                     try
                     {
@@ -421,7 +430,7 @@ while (choice != Choices.End)
 
                     break;
 
-                case "Genre": // option if the user want to edit the Genre
+                case "GENRE": // option if the user want to edit the Genre
                     string Genreinput = "";
                     try // try catch to make sure genre does not crash program
                     {
@@ -442,7 +451,7 @@ while (choice != Choices.End)
                     }
                     break;
 
-                case "Download Cost": // option if the user want to edit the Download Cost
+                case "DOWNLOAD COST": // option if the user want to edit the Download Cost
                     try
                     {
                         Console.WriteLine($"\nWhat would you like the new Download Cost to be? ");
@@ -458,7 +467,7 @@ while (choice != Choices.End)
 
                     break;
 
-                case "Song Title": // option if the user want to edit the Song Title
+                case "SONG TITLE": // option if the user want to edit the Song Title
                     Console.WriteLine($"\nWhat would you like the new Song Title to be? ");
                     mp3ToEdit.SongTitle = Console.ReadLine();
                     Console.WriteLine();
@@ -467,7 +476,7 @@ while (choice != Choices.End)
 
                     break;
 
-                case "File Size": // option if the user want to edit the File Size
+                case "FILE SIZE": // option if the user want to edit the File Size
                     try
                     {
                         Console.WriteLine($"\nWhat would you like the new File Size in MBs to be? ");
@@ -484,7 +493,7 @@ while (choice != Choices.End)
                     break;
 
 
-                case "Playback Time": // option if the user want to edit the Playback Time
+                case "PLAYBACK TIME": // option if the user want to edit the Playback Time
                     try
                     {
                         Console.WriteLine($"\nWhat would you like the new Playback time to be? ");
@@ -500,7 +509,7 @@ while (choice != Choices.End)
 
                     break;
 
-                case "Path": // option if the user want to edit the Path
+                case "PATH": // option if the user want to edit the Path
                     try
                     {
                         Console.WriteLine($"\nWhat would you like the new Path to be? ");
@@ -656,7 +665,7 @@ while (choice != Choices.End)
                 Console.WriteLine("What is the file you would like to load from");
                 file = Console.ReadLine();
                 playlist1.FillFromFile(file); // calling fill method that loads a playlist to the program. 
-                Console.WriteLine($"\nPlaylist has been loaded");
+                Console.WriteLine("Playlist loaded");
                 Console.ReadKey();             
             }
             catch(Exception e)
@@ -676,6 +685,8 @@ while (choice != Choices.End)
                 Console.WriteLine("Please type in the file you would like to save to");
                 file = Console.ReadLine();
                 playlist1.SaveToFile(file); // calling save method 
+                Console.WriteLine("Playlist saved");
+                Console.ReadKey();
 
             }
             catch(Exception e)
@@ -706,7 +717,7 @@ if (choice == Choices.End) // statement for if the user selects "end" to say goo
                 {
                     Console.WriteLine("It looks like you have made changes to the Playlist since the last save. Would you like to save before you exit? (Enter Yes or No)");
                     End = Console.ReadLine().ToUpper();
-                    if (End == "Y" || End == "YES")
+                    if (End == "Y" || End == "YES") //  if statment  for if user wants to save
                     {
                         Console.Write($"\nWhat is the file location you would like to save to? ");
                         SaveNeededFile = Console.ReadLine();
@@ -718,7 +729,7 @@ if (choice == Choices.End) // statement for if the user selects "end" to say goo
                         Console.WriteLine($"\nThank you, {name} for using my program. Press any key to end.");
                         Console.ReadKey();
                     }
-                    else if (End == "N" || End == "NO")
+                    else if (End == "N" || End == "NO") // else if statement for if user does not want to save
                     {
                         Console.WriteLine("You selected End the Program.");
                         Console.WriteLine($"\nThank you, {name} for using my program. Press any key to end.");
@@ -743,7 +754,7 @@ if (choice == Choices.End) // statement for if the user selects "end" to say goo
     }
     catch(Exception ex)
     {
-        Console.WriteLine("No playlist created. Program will continue to end");
+        Console.WriteLine($"No playlist created. Program will continue to end. Thank you{name}");
     }
 }
 
